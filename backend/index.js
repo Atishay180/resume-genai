@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 
@@ -10,6 +11,12 @@ dotenv.config();
 //app setup
 const app = express();
 const port = process.env.PORT;
+
+//cors
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}))
 
 //middleware
 app.use(express.json());
