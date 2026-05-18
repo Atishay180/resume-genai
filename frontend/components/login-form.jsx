@@ -16,7 +16,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { NavLink } from "react-router"
 
-export function LoginForm({ className, ...props }) {
+export function LoginForm({
+    handleSubmit,
+    setFormData,
+    formData,
+    isLogging,
+    className,
+    ...props
+}) {
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -27,7 +34,7 @@ export function LoginForm({ className, ...props }) {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <FieldGroup>
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -35,6 +42,8 @@ export function LoginForm({ className, ...props }) {
                                     id="email"
                                     type="email"
                                     placeholder="m@example.com"
+                                    value={formData?.email || ''}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                                     required
                                 />
                             </Field>
@@ -48,10 +57,18 @@ export function LoginForm({ className, ...props }) {
                                         Forgot your password?
                                     </NavLink>
                                 </div>
-                                <Input id="password" type="password" required />
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    value={formData?.password || ''}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                                    required
+                                />
                             </Field>
                             <Field>
-                                <Button type="submit">Login</Button>
+                                <Button type="submit" className="w-full" disabled={isLogging}>
+                                    {isLogging ? "Logging in..." : "Login"}
+                                </Button>
                                 <Button variant="outline" type="button">
                                     Login with Google
                                 </Button>

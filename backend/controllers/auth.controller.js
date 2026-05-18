@@ -9,10 +9,10 @@ import bcrypt from "bcryptjs";
  * @access Public
  */
 const registerUser = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
     try {
-        if (!username || !email || !password) {
+        if (!username || !email || !password || !confirmPassword) {
             return res.status(400).json({ message: "Please provide username, email and password" });
         }
 
@@ -22,6 +22,10 @@ const registerUser = async (req, res) => {
 
         if (isUserAlreadyExists) {
             return res.status(400).json({ message: "User already exists with this username or email" });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
         }
 
         //password check - 1 uppercase, 1 lowercase, 1 number, 1 special character, minimum 8 characters, maximum 20 characters
