@@ -9,14 +9,14 @@ export const useAuth = () => {
         queryKey: ['authUser'],
         queryFn: authService.getMe,
         retry: false, // Don't retry if the cookie is missing/invalid
-        staleTime: Infinity,
+        staleTime: Infinity, // Don't refetch if the cookie is still valid
     })
 
     //REGISTER MUTATION
     const registerMutation = useMutation({
         mutationFn: authService.register,
         onSuccess: (data) => {
-            queryClient.setQueriesData(['authUser'], data.user);
+            queryClient.setQueryData(['authUser'], data.user);
         },
     })
 
