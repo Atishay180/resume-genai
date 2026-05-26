@@ -19,11 +19,11 @@ authRouter.post("/register", registerUser);
 authRouter.post("/login", loginUser);
 
 /**
- * @route GET /api/v1/auth/logout
+ * @route POST /api/v1/auth/logout
  * @description Logout a user & add token to blacklist
  * @access Public
  */
-authRouter.get("/logout", logoutUser);
+authRouter.post("/logout", logoutUser);
 
 /**
  * @route GET /api/v1/auth/get-me
