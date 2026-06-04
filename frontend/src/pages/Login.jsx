@@ -1,11 +1,19 @@
 import { LoginForm } from '@/components/login-form'
 import React, { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 const Login = () => {
 
+    const initialFormData = {
+        email: '',
+        password: '',
+    };
+
     const { login, isLogging } = useAuth();
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState(initialFormData);
+    const navigate = useNavigate();
 
 
     const handleSubmit = async (e) => {
@@ -13,9 +21,13 @@ const Login = () => {
 
         try {
             await login(formData);
+            setFormData(initialFormData);
+
+            toast.success("Welcome back!", { position: "top-center" });
+            navigate('/');
         } catch (error) {
-            // In a real app, you'd want to show this error in the UI instead of an alert
-            alert(error.response?.data?.message || 'Login failed');
+            setFormData(initialFormData);
+            toast.error(error.response?.data?.message || "Something went wrong", { position: "top-center" })
         }
     };
 

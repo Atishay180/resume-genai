@@ -1,6 +1,19 @@
-import { Button } from '@/components/ui/button'
+import React from 'react';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/src/hooks/useAuth';
-import React from 'react'
+
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { toast } from "sonner";
 
 const Logout = ({ props }) => {
     const { logout } = useAuth();
@@ -8,17 +21,46 @@ const Logout = ({ props }) => {
     const handleLogout = async () => {
         try {
             await logout();
-            console.log('Logged out successfully');
+            toast.success('Logged out successfully', { position: "top-center" });
         } catch (error) {
-            // In a real app, you'd want to show this error in the UI instead of an alert
-            alert(error.response?.data?.message || 'Logout failed');
+            toast.error(error.response?.data?.message || "Something went wrong", { position: "top-center" });
         }
     };
-    return (
-        <Button onClick={handleLogout} className={`${props.className}`}>
-            Logout
-        </Button>
-    )
-}
 
-export default Logout
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button className={props.className}>
+                    Logout
+                </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>
+                        Are you sure you want to logout?
+                    </AlertDialogTitle>
+
+                    <AlertDialogDescription>
+                        You will need to login again to access your account.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                    <AlertDialogCancel>
+                        No
+                    </AlertDialogCancel>
+
+                    <AlertDialogAction
+                        variant="destructive"
+                        onClick={handleLogout}
+                    >
+                        Yes
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
+};
+
+export default Logout;

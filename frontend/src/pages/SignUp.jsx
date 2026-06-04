@@ -1,27 +1,43 @@
 import { SignupForm } from '@/components/signup-form'
 import React, { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 const SignUp = () => {
 
+    const initialFormData = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    };
+
     const { register, isRegistering } = useAuth();
-    const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
+    const [formData, setFormData] = useState(initialFormData);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             if (formData.password !== formData.confirmPassword) {
-                // In a real app, you'd want to show this error in the UI instead of an alert
-                alert("Passwords do not match");
+                setFormData(prev => ({
+                    ...prev,
+                    password: '',
+                    confirmPassword: '',
+                }));
+
+                toast.error("Passwords do not match", { position: "top-center" });
                 return;
             }
             await register(formData);
-            console.log("User registered successfully");
+            setFormData(initialFormData);
 
+            navigate('/');
         } catch (error) {
-            // In a real app, you'd want to show this error in the UI instead of an alert
-            alert(error.response?.data?.message || 'Signup failed');
+            setFormData(initialFormData);
+            toast.error(error.response?.data?.message || "Something went wrong", { position: "top-center" });
         }
     };
 
