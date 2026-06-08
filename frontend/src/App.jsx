@@ -1,31 +1,31 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
-
-import Login from './pages/Login'
-import SignUp from './pages/SignUp'
-import Logout from './components/features/Logout'
 import { ProtectedRoute } from './components/features/ProtectedRoute'
 import { Toaster } from '@/components/ui/sonner'
 
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
+import Dashboard from './pages/Dashboard'
+import MainLayout from './layouts/MainLayout'
+
 const App = () => {
   return (
-    <div className='w-full h-screen'>
-      <Toaster />
-      <Routes>
+    <>
+      <Toaster richColors position="top-center" />
 
+      <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
 
+        {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={
-            <div>
-              <h1>Home Page</h1>
-              <Logout props={{ className: '' }} />
-            </div>
-          } />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
-    </div>
+    </>
   )
 }
 
