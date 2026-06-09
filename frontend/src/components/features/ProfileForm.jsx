@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Card,
     CardContent,
@@ -18,6 +18,50 @@ import {
 } from "lucide-react";
 
 const ProfileForm = () => {
+
+    const placeholderTexts = {
+        jobDescription: `Paste the full job description here...
+
+Example:
+
+Senior Frontend Engineer
+
+Requirements:
+• 3+ years React experience
+• Strong JavaScript/TypeScript knowledge
+• Experience with REST APIs
+• Understanding of scalable architectures
+• Excellent communication skills`,
+
+        selfDescription: `Briefly describe your experience, key skills and years of experience if you don't have a resume handy...`,
+    }
+
+    const [resume, setResume] = useState(null);
+
+    const handleResumeUpload = (e) => {
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        const allowedTypes = [
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert("Please upload a PDF, DOC, or DOCX file");
+            return;
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+            alert("File size should be less than 10MB");
+            return;
+        }
+
+        setResume(file);
+    };
+
     return (
         <div >
             {/* Main Card */}
@@ -46,18 +90,7 @@ const ProfileForm = () => {
                             <Textarea
                                 maxLength={5000}
                                 className="h-[360px] resize-none border-border bg-background"
-                                placeholder={`Paste the full job description here...
-
-Example:
-
-Senior Frontend Engineer
-
-Requirements:
-• 3+ years React experience
-• Strong JavaScript/TypeScript knowledge
-• Experience with REST APIs
-• Understanding of scalable architectures
-• Excellent communication skills`}
+                                placeholder={placeholderTexts.jobDescription}
                             />
 
                             <div className="mt-2 text-right text-xs text-muted-foreground">
@@ -89,17 +122,30 @@ Requirements:
                                     </Badge>
                                 </div>
 
-                                <div className="flex min-h-[130px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/20 p-4 transition-all hover:border-primary hover:bg-muted/40">
+                                <label
+                                    htmlFor="resume-upload"
+                                    className="flex min-h-[130px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/20 p-4 transition-all hover:border-primary hover:bg-muted/40"
+                                >
                                     <UploadCloud className="mb-2 h-7 w-7 text-primary" />
 
                                     <p className="text-sm font-medium text-foreground">
-                                        Click to upload or drag & drop
+                                        {resume
+                                            ? resume.name
+                                            : "Click to upload or drag & drop"}
                                     </p>
 
                                     <p className="mt-1 text-xs text-muted-foreground">
                                         PDF • DOC • DOCX (Max 10MB)
                                     </p>
-                                </div>
+                                </label>
+
+                                <input
+                                    id="resume-upload"
+                                    type="file"
+                                    accept=".pdf,.doc,.docx"
+                                    className="hidden"
+                                    onChange={handleResumeUpload}
+                                />
                             </div>
 
                             {/* Divider */}
@@ -121,7 +167,7 @@ Requirements:
 
                                 <Textarea
                                     className="h-[120px] resize-none border-border bg-background"
-                                    placeholder="Briefly describe your experience, key skills and years of experience if you don't have a resume handy..."
+                                    placeholder={placeholderTexts.selfDescription}
                                 />
                             </div>
 
