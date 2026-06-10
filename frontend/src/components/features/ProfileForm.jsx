@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 import {
     Briefcase,
@@ -36,10 +37,21 @@ Requirements:
         selfDescription: `Briefly describe your experience, key skills and years of experience if you don't have a resume handy...`,
     }
 
-    const [resume, setResume] = useState(null);
+    const [profile, setProfile] = useState({
+        resume: null,
+        jobDescription: "",
+        selfDescription: "",
+    });
+
+    const handleChange = (field, value) => {
+        setProfile((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
 
     const handleResumeUpload = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
 
         if (!file) return;
 
@@ -50,16 +62,79 @@ Requirements:
         ];
 
         if (!allowedTypes.includes(file.type)) {
-            alert("Please upload a PDF, DOC, or DOCX file");
+            toast.error("Please upload a PDF, DOC, or DOCX file", {
+                position: "top-center",
+            });
+            e.target.value = "";
             return;
         }
 
         if (file.size > 10 * 1024 * 1024) {
-            alert("File size should be less than 10MB");
+            toast.error("File size should be less than 10MB", {
+                position: "top-center",
+            });
+            e.target.value = "";
             return;
         }
 
-        setResume(file);
+        setProfile((prev) => ({
+            ...prev,
+            resume: file,
+        }));
+    };
+
+    const handleGenerateInterviewStrategy = async () => {
+        try {
+            if (!profile.jobDescription.trim()) {
+                toast.error("Job Description is required", {
+                    position: "top-center",
+                });
+                return;
+            }
+
+            if (
+                !profile.resume &&
+                !profile.selfDescription.trim()
+            ) {
+                toast.error(
+                    "Please upload a resume or provide a self description",
+                    {
+                        position: "top-center",
+                    }
+                );
+                return;
+            }
+
+            const formData = new FormData();
+
+            Object.entries(profile).forEach(([key, value]) => {
+                if (value) {
+                    formData.append(key, value);
+                }
+            });
+
+            // Debug
+            console.log("Profile Object:", profile);
+
+            console.log("FormData:");
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+
+            toast.success("Interview strategy generated successfully!", {
+                position: "top-center",
+            });
+        } catch (error) {
+            console.error(error);
+
+            toast.error(
+                error.response?.data?.message ||
+                "Failed to generate interview strategy",
+                {
+                    position: "top-center",
+                }
+            );
+        }
     };
 
     return (
@@ -91,10 +166,14 @@ Requirements:
                                 maxLength={5000}
                                 className="h-[360px] resize-none border-border bg-background"
                                 placeholder={placeholderTexts.jobDescription}
+                                value={profile.jobDescription}
+                                onChange={(e) =>
+                                    handleChange("jobDescription", e.target.value)
+                                }
                             />
 
                             <div className="mt-2 text-right text-xs text-muted-foreground">
-                                0 / 5000 chars
+                                {profile.jobDescription.length} / 5000 chars
                             </div>
                         </div>
 
@@ -129,8 +208,8 @@ Requirements:
                                     <UploadCloud className="mb-2 h-7 w-7 text-primary" />
 
                                     <p className="text-sm font-medium text-foreground">
-                                        {resume
-                                            ? resume.name
+                                        {profile.resume
+                                            ? profile.resume.name
                                             : "Click to upload or drag & drop"}
                                     </p>
 
@@ -168,6 +247,10 @@ Requirements:
                                 <Textarea
                                     className="h-[120px] resize-none border-border bg-background"
                                     placeholder={placeholderTexts.selfDescription}
+                                    value={profile.selfDescription}
+                                    onChange={(e) =>
+                                        handleChange("selfDescription", e.target.value)
+                                    }
                                 />
                             </div>
 
@@ -193,6 +276,7 @@ Requirements:
 
                     <Button
                         size="default"
+                        onClick={handleGenerateInterviewStrategy}
                         className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-sm"
                     >
                         <Sparkles className="mr-2 h-4 w-4" />
