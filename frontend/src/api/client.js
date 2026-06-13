@@ -3,16 +3,17 @@ import axios from "axios";
 // Axios client:
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
-    headers: {
-        "Content-Type": "application/json"
-    },
     withCredentials: true,
 });
 
 // Request Interceptor:
 apiClient.interceptors.request.use(
     (config) => {
-        // If you need to add custom trace headers or device IDs later, do it here.
+        if (config.data instanceof FormData) {
+            delete config.headers["Content-Type"];
+        } else if (!config.headers["Content-Type"]) {
+            config.headers["Content-Type"] = "application/json";
+        }
         return config;
     },
     error => {

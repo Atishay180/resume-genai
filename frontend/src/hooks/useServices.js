@@ -58,6 +58,6 @@ export const useServices = (interviewId = null) => {
         // generate interview report mutation
         generateInterviewReport: generateInterviewReportMutation.mutateAsync,
         isInterviewReportGenerating: generateInterviewReportMutation.isPending,
-        interviewReportGeneratingError: generateInterviewReportMutation.error,
+        interviewReportGenerationError: generateInterviewReportMutation.error,
     }
 }

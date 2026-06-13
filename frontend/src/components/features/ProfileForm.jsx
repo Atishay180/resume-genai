@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import {
-    Card,
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-
-import {
-    Briefcase,
-    User,
-    UploadCloud,
-    Sparkles,
-    Info,
-} from "lucide-react";
+import { Briefcase, User, UploadCloud, Sparkles, Info } from "lucide-react";
+import { useServices } from "@/src/hooks/useServices";
+import InterviewReportGenerating from "../common/InterviewReportGenerating";
+import InterviewReportGenerationError from "../common/InterviewReportGenerationError";
 
 const ProfileForm = () => {
 
@@ -36,6 +28,8 @@ Requirements:
 
         selfDescription: `Briefly describe your experience, key skills and years of experience if you don't have a resume handy...`,
     }
+
+    const { generateInterviewReport, isInterviewReportGenerating, interviewReportGenerationError } = useServices();
 
     const [profile, setProfile] = useState({
         resume: null,
@@ -57,20 +51,18 @@ Requirements:
 
         const allowedTypes = [
             "application/pdf",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         ];
 
         if (!allowedTypes.includes(file.type)) {
-            toast.error("Please upload a PDF, DOC, or DOCX file", {
+            toast.error("Please upload a PDF file", {
                 position: "top-center",
             });
             e.target.value = "";
             return;
         }
 
-        if (file.size > 10 * 1024 * 1024) {
-            toast.error("File size should be less than 10MB", {
+        if (file.size > 3 * 1024 * 1024) {
+            toast.error("File size should be less than 3MB", {
                 position: "top-center",
             });
             e.target.value = "";
@@ -107,35 +99,45 @@ Requirements:
 
             const formData = new FormData();
 
-            Object.entries(profile).forEach(([key, value]) => {
-                if (value) {
-                    formData.append(key, value);
-                }
-            });
+            formData.append("jobDescription", profile.jobDescription.trim());
+            formData.append("selfDescription", profile.selfDescription.trim());
 
-            // Debug
-            console.log("Profile Object:", profile);
-
-            console.log("FormData:");
-            for (const [key, value] of formData.entries()) {
-                console.log(key, value);
+            if (profile.resume) {
+                formData.append("resume", profile.resume);
             }
+
+            const response = await generateInterviewReport(formData);
+            console.log(response);
 
             toast.success("Interview strategy generated successfully!", {
                 position: "top-center",
             });
+
+            setProfile({
+                resume: null,
+                jobDescription: "",
+                selfDescription: "",
+            });
         } catch (error) {
             console.error(error);
-
-            toast.error(
-                error.response?.data?.message ||
-                "Failed to generate interview strategy",
-                {
-                    position: "top-center",
-                }
-            );
+            toast.error(error.response?.data?.message || "Failed to generate interview strategy", { position: "top-center", });
         }
     };
+
+    // Show loading overlay when generating report
+    if (isInterviewReportGenerating) {
+        return <InterviewReportGenerating />;
+    }
+
+    // Show error overlay if report generation fails
+    if (interviewReportGenerationError) {
+        return (
+            <InterviewReportGenerationError
+                error={interviewReportGenerationError.message}
+                onRetry={handleGenerateInterviewStrategy}
+            />
+        )
+    }
 
     return (
         <div >
@@ -214,14 +216,14 @@ Requirements:
                                     </p>
 
                                     <p className="mt-1 text-xs text-muted-foreground">
-                                        PDF • DOC • DOCX (Max 10MB)
+                                        PDF (Max 3MB)
                                     </p>
                                 </label>
 
                                 <input
                                     id="resume-upload"
                                     type="file"
-                                    accept=".pdf,.doc,.docx"
+                                    accept="application/pdf"
                                     className="hidden"
                                     onChange={handleResumeUpload}
                                 />
