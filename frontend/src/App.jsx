@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import MainLayout from './layouts/MainLayout'
+import InterviewReport from './pages/InterviewReport'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/interview-report" element={<InterviewReport />} />
           </Route>
         </Route>
       </Routes>
