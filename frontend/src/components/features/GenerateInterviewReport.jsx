@@ -4,13 +4,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "sonner";
 import { Briefcase, User, UploadCloud, Sparkles, Info } from "lucide-react";
-import { useServices } from "@/src/hooks/useServices";
 import InterviewReportGenerating from "../common/InterviewReportGenerating";
 import InterviewReportGenerationError from "../common/InterviewReportGenerationError";
 
-const GenerateInterviewReport = () => {
+const GenerateInterviewReport = ({
+    profile,
+    handleChange,
+    handleResumeUpload,
+    handleGenerateInterviewStrategy,
+    isInterviewReportGenerating,
+    interviewReportGenerationError,
+}) => {
 
     const placeholderTexts = {
         jobDescription: `Paste the full job description here...
@@ -28,101 +33,6 @@ Requirements:
 
         selfDescription: `Briefly describe your experience, key skills and years of experience if you don't have a resume handy...`,
     }
-
-    const { generateInterviewReport, isInterviewReportGenerating, interviewReportGenerationError } = useServices();
-
-    const [profile, setProfile] = useState({
-        resume: null,
-        jobDescription: "",
-        selfDescription: "",
-    });
-
-    const handleChange = (field, value) => {
-        setProfile((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
-
-    const handleResumeUpload = (e) => {
-        const file = e.target.files?.[0];
-
-        if (!file) return;
-
-        const allowedTypes = [
-            "application/pdf",
-        ];
-
-        if (!allowedTypes.includes(file.type)) {
-            toast.error("Please upload a PDF file", {
-                position: "top-center",
-            });
-            e.target.value = "";
-            return;
-        }
-
-        if (file.size > 3 * 1024 * 1024) {
-            toast.error("File size should be less than 3MB", {
-                position: "top-center",
-            });
-            e.target.value = "";
-            return;
-        }
-
-        setProfile((prev) => ({
-            ...prev,
-            resume: file,
-        }));
-    };
-
-    const handleGenerateInterviewStrategy = async () => {
-        try {
-            if (!profile.jobDescription.trim()) {
-                toast.error("Job Description is required", {
-                    position: "top-center",
-                });
-                return;
-            }
-
-            if (
-                !profile.resume &&
-                !profile.selfDescription.trim()
-            ) {
-                toast.error(
-                    "Please upload a resume or provide a self description",
-                    {
-                        position: "top-center",
-                    }
-                );
-                return;
-            }
-
-            const formData = new FormData();
-
-            formData.append("jobDescription", profile.jobDescription.trim());
-            formData.append("selfDescription", profile.selfDescription.trim());
-
-            if (profile.resume) {
-                formData.append("resume", profile.resume);
-            }
-
-            const response = await generateInterviewReport(formData);
-            console.log(response);
-
-            toast.success("Interview strategy generated successfully!", {
-                position: "top-center",
-            });
-
-            setProfile({
-                resume: null,
-                jobDescription: "",
-                selfDescription: "",
-            });
-        } catch (error) {
-            console.error(error);
-            toast.error(error.response?.data?.message || "Failed to generate interview strategy", { position: "top-center", });
-        }
-    };
 
     // Show loading overlay when generating report
     if (isInterviewReportGenerating) {
@@ -146,7 +56,7 @@ Requirements:
             <div className="mb-5 text-center">
                 <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                     Create Your Custom{" "}
-                    <span className="bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+                    <span className="bg-linear-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
                         Interview Plan
                     </span>
                 </h1>
@@ -156,6 +66,7 @@ Requirements:
                     to build a personalized interview strategy.
                 </p>
             </div>
+
             {/* Main Card */}
             <Card className="overflow-hidden rounded-3xl border bg-card shadow-sm" >
                 <CardContent className="p-0">
@@ -294,7 +205,7 @@ Requirements:
                     <Button
                         size="default"
                         onClick={handleGenerateInterviewStrategy}
-                        className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-sm"
+                        className="bg-linear-to-r from-primary to-primary/80 text-primary-foreground shadow-sm"
                     >
                         <Sparkles className="mr-2 h-4 w-4" />
                         Generate My Interview Strategy
