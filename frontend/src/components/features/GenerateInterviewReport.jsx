@@ -10,7 +10,7 @@ import { useServices } from "@/src/hooks/useServices";
 import InterviewReportGenerating from "../common/InterviewReportGenerating";
 import InterviewReportGenerationError from "../common/InterviewReportGenerationError";
 
-const ProfileForm = () => {
+const GenerateInterviewReport = () => {
 
     const placeholderTexts = {
         jobDescription: `Paste the full job description here...
@@ -301,23 +301,8 @@ Requirements:
                     </Button>
                 </CardFooter>
             </Card >
-
-            {/* Footer Links */}
-            {/* < div className="mt-4 flex justify-center gap-6 text-xs text-muted-foreground" >
-                <button className="transition-colors hover:text-foreground">
-                    Privacy Policy
-                </button>
-
-                <button className="transition-colors hover:text-foreground">
-                    Terms of Service
-                </button>
-
-                <button className="transition-colors hover:text-foreground">
-                    Help Center
-                </button>
-            </div > */}
         </div >
     );
 };
 
-export default ProfileForm;
+export default GenerateInterviewReport;
