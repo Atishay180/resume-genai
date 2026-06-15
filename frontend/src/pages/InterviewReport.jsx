@@ -2,136 +2,140 @@ import { useState } from "react";
 import { Card, CardContent, } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Code2, MessageSquare, Map, } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const InterviewReport = () => {
+
     const [activeSection, setActiveSection] = useState("technical");
 
-    const response = {
-        _id: "6a2e3640e8cb6a8da61383c5",
-        matchScore: 45,
-        technicalQuestions: [
-            {
-                question: "Can you explain how you would structure a MERN stack application to ensure maintainability and scalability?",
-                intention: "Assess candidate's architectural thinking and knowledge of separation of concerns across layers.",
-                answer: "Start with a clear folder structure separating client and server. Use a React frontend with functional components and hooks, a Node/Express server exposing RESTful APIs, and MongoDB for persistence. Apply the MVC or Clean Architecture pattern: models for data, controllers for business logic, and routes for API endpoints. Leverage environment variables for configuration, use a central config module, and implement middleware for authentication and logging. Adopt a component-based UI with reusable components, context or Redux for state, and prop drilling avoidance. For scalability, implement pagination, indexing in MongoDB, and consider horizontal scaling of Node processes using PM2 or Docker Swarm. Also discuss unit, integration, and end-to-end testing coverage and CI/CD pipelines for continuous deployment."
-            },
-            {
-                question: "How do you handle authentication and authorization in a MERN application?",
-                intention: "Determine understanding of JWT, OAuth, session management and secure best practices.",
-                answer: "Use JWTs signed with a secret key stored securely (e.g., environment variables). Upon login, generate a token with user ID and role claims, set expiration. Store the token in HttpOnly cookies or localStorage with proper CSP headers. For protected routes, create Express middleware that verifies the token, extracts the payload, and attaches user info to req.user. Use role-based checks (e.g., admin) by inspecting the role claim. Implement token refresh logic, revoke tokens via blacklist or short expiration. For sensitive data, use HTTPS, set SameSite=Lax/Strict, and enforce CORS policies."
-            },
-            {
-                question: "Explain how you would design and implement a RESTful API endpoint for creating a new...",
-                intention: "",
-                answer: ""
-            }
-        ],
-        behavioralQuestions: [
-            {
-                question: "Can you explain how you would structure a MERN stack application to ensure maintainability and scalability?",
-                intention: "Assess candidate's architectural thinking and knowledge of separation of concerns across layers.",
-                answer: "Start with a clear folder structure separating client and server. Use a React frontend with functional components and hooks, a Node/Express server exposing RESTful APIs, and MongoDB for persistence. Apply the MVC or Clean Architecture pattern: models for data, controllers for business logic, and routes for API endpoints. Leverage environment variables for configuration, use a central config module, and implement middleware for authentication and logging. Adopt a component-based UI with reusable components, context or Redux for state, and prop drilling avoidance. For scalability, implement pagination, indexing in MongoDB, and consider horizontal scaling of Node processes using PM2 or Docker Swarm. Also discuss unit, integration, and end-to-end testing coverage and CI/CD pipelines for continuous deployment."
-            },
-            {
-                question: "How do you handle authentication and authorization in a MERN application?",
-                intention: "Determine understanding of JWT, OAuth, session management and secure best practices.",
-                answer: "Use JWTs signed with a secret key stored securely (e.g., environment variables). Upon login, generate a token with user ID and role claims, set expiration. Store the token in HttpOnly cookies or localStorage with proper CSP headers. For protected routes, create Express middleware that verifies the token, extracts the payload, and attaches user info to req.user. Use role-based checks (e.g., admin) by inspecting the role claim. Implement token refresh logic, revoke tokens via blacklist or short expiration. For sensitive data, use HTTPS, set SameSite=Lax/Strict, and enforce CORS policies."
-            },
-            {
-                question: "Explain how you would design and implement a RESTful API endpoint for creating a new...",
-                intention: "",
-                answer: ""
-            }
-        ],
-        preparationPlans: [
-            {
-                day: 1,
-                focus: "Core MERN fundamentals",
-                tasks: [
-                    "Review React hooks & context, Node/Express routing, Mongoose schemas",
-                    "Watch \"MERN Stack Full Course\" by Traversy Media",
-                    "Take a quick code quiz on CRUD operations"
-                ]
-            },
-            {
-                day: 2,
-                focus: "RESTful API design & authentication",
-                tasks: [
-                    "Read \"Designing Web APIs\" by Brenda Jin",
-                    "Implement a small Express API with JWT and role-based auth",
-                    "Use Postman to test endpoints"
-                ]
-            },
-            {
-                day: 3,
-                focus: "Performance & optimization",
-                tasks: [
-                    "Study React performance patterns",
-                    "Implement virtualized list in sample app",
-                    "Benchmark with React DevTools"
-                ]
-            },
-            {
-                day: 4,
-                focus: "Security best practices",
-                tasks: [
-                    "Read OWASP Top 10 for web apps",
-                    "Configure Helmet & express-rate-limit in demo app",
-                    "Set up HTTPS locally with self-signed cert"
-                ]
-            },
-            {
-                day: 5,
-                focus: "DevOps & CI/CD",
-                tasks: [
-                    "Create GitHub Actions workflow for lint, test, build",
-                    "Build Docker image, push to GitHub Container Registry",
-                    "Deploy to Render free tier"
-                ]
-            },
-            {
-                day: 6,
-                focus: "Behavioral & interview prep",
-                tasks: [
-                    "Practice STAR stories for teamwork, bug fixing, prioritization",
-                    "Mock interview with a friend or using Pramp",
-                    "Record and review answers"
-                ]
-            },
-            {
-                day: 7,
-                focus: "Mock coding challenge",
-                tasks: [
-                    "Solve 2-3 MERN related problems on LeetCode or HackerRank",
-                    "Time yourself, write clean code, explain approach",
-                    "Review solutions and optimize"
-                ]
-            }
-        ],
-        skillGaps: [
-            {
-                skill: "Node.js/Express deep API design",
-                severity: "high"
-            },
-            {
-                skill: "TypeScript usage in MERN",
-                severity: "medium"
-            },
-            {
-                skill: "Docker & container orchestration",
-                severity: "medium"
-            },
-            {
-                skill: "CI/CD pipeline implementation",
-                severity: "medium"
-            },
-            {
-                skill: "Advanced database modeling in MongoDB",
-                severity: "low"
-            }
-        ],
-        title: "MERN Stack Developer",
-    };
+    const interviewReportResponse = useSelector((state) => state.interviewReport.interviewReportResponse);
+
+    // const interviewReportResponse = {
+    //     _id: "6a2e3640e8cb6a8da61383c5",
+    //     matchScore: 45,
+    //     technicalQuestions: [
+    //         {
+    //             question: "Can you explain how you would structure a MERN stack application to ensure maintainability and scalability?",
+    //             intention: "Assess candidate's architectural thinking and knowledge of separation of concerns across layers.",
+    //             answer: "Start with a clear folder structure separating client and server. Use a React frontend with functional components and hooks, a Node/Express server exposing RESTful APIs, and MongoDB for persistence. Apply the MVC or Clean Architecture pattern: models for data, controllers for business logic, and routes for API endpoints. Leverage environment variables for configuration, use a central config module, and implement middleware for authentication and logging. Adopt a component-based UI with reusable components, context or Redux for state, and prop drilling avoidance. For scalability, implement pagination, indexing in MongoDB, and consider horizontal scaling of Node processes using PM2 or Docker Swarm. Also discuss unit, integration, and end-to-end testing coverage and CI/CD pipelines for continuous deployment."
+    //         },
+    //         {
+    //             question: "How do you handle authentication and authorization in a MERN application?",
+    //             intention: "Determine understanding of JWT, OAuth, session management and secure best practices.",
+    //             answer: "Use JWTs signed with a secret key stored securely (e.g., environment variables). Upon login, generate a token with user ID and role claims, set expiration. Store the token in HttpOnly cookies or localStorage with proper CSP headers. For protected routes, create Express middleware that verifies the token, extracts the payload, and attaches user info to req.user. Use role-based checks (e.g., admin) by inspecting the role claim. Implement token refresh logic, revoke tokens via blacklist or short expiration. For sensitive data, use HTTPS, set SameSite=Lax/Strict, and enforce CORS policies."
+    //         },
+    //         {
+    //             question: "Explain how you would design and implement a RESTful API endpoint for creating a new...",
+    //             intention: "",
+    //             answer: ""
+    //         }
+    //     ],
+    //     behavioralQuestions: [
+    //         {
+    //             question: "Can you explain how you would structure a MERN stack application to ensure maintainability and scalability?",
+    //             intention: "Assess candidate's architectural thinking and knowledge of separation of concerns across layers.",
+    //             answer: "Start with a clear folder structure separating client and server. Use a React frontend with functional components and hooks, a Node/Express server exposing RESTful APIs, and MongoDB for persistence. Apply the MVC or Clean Architecture pattern: models for data, controllers for business logic, and routes for API endpoints. Leverage environment variables for configuration, use a central config module, and implement middleware for authentication and logging. Adopt a component-based UI with reusable components, context or Redux for state, and prop drilling avoidance. For scalability, implement pagination, indexing in MongoDB, and consider horizontal scaling of Node processes using PM2 or Docker Swarm. Also discuss unit, integration, and end-to-end testing coverage and CI/CD pipelines for continuous deployment."
+    //         },
+    //         {
+    //             question: "How do you handle authentication and authorization in a MERN application?",
+    //             intention: "Determine understanding of JWT, OAuth, session management and secure best practices.",
+    //             answer: "Use JWTs signed with a secret key stored securely (e.g., environment variables). Upon login, generate a token with user ID and role claims, set expiration. Store the token in HttpOnly cookies or localStorage with proper CSP headers. For protected routes, create Express middleware that verifies the token, extracts the payload, and attaches user info to req.user. Use role-based checks (e.g., admin) by inspecting the role claim. Implement token refresh logic, revoke tokens via blacklist or short expiration. For sensitive data, use HTTPS, set SameSite=Lax/Strict, and enforce CORS policies."
+    //         },
+    //         {
+    //             question: "Explain how you would design and implement a RESTful API endpoint for creating a new...",
+    //             intention: "",
+    //             answer: ""
+    //         }
+    //     ],
+    //     preparationPlans: [
+    //         {
+    //             day: 1,
+    //             focus: "Core MERN fundamentals",
+    //             tasks: [
+    //                 "Review React hooks & context, Node/Express routing, Mongoose schemas",
+    //                 "Watch \"MERN Stack Full Course\" by Traversy Media",
+    //                 "Take a quick code quiz on CRUD operations"
+    //             ]
+    //         },
+    //         {
+    //             day: 2,
+    //             focus: "RESTful API design & authentication",
+    //             tasks: [
+    //                 "Read \"Designing Web APIs\" by Brenda Jin",
+    //                 "Implement a small Express API with JWT and role-based auth",
+    //                 "Use Postman to test endpoints"
+    //             ]
+    //         },
+    //         {
+    //             day: 3,
+    //             focus: "Performance & optimization",
+    //             tasks: [
+    //                 "Study React performance patterns",
+    //                 "Implement virtualized list in sample app",
+    //                 "Benchmark with React DevTools"
+    //             ]
+    //         },
+    //         {
+    //             day: 4,
+    //             focus: "Security best practices",
+    //             tasks: [
+    //                 "Read OWASP Top 10 for web apps",
+    //                 "Configure Helmet & express-rate-limit in demo app",
+    //                 "Set up HTTPS locally with self-signed cert"
+    //             ]
+    //         },
+    //         {
+    //             day: 5,
+    //             focus: "DevOps & CI/CD",
+    //             tasks: [
+    //                 "Create GitHub Actions workflow for lint, test, build",
+    //                 "Build Docker image, push to GitHub Container Registry",
+    //                 "Deploy to Render free tier"
+    //             ]
+    //         },
+    //         {
+    //             day: 6,
+    //             focus: "Behavioral & interview prep",
+    //             tasks: [
+    //                 "Practice STAR stories for teamwork, bug fixing, prioritization",
+    //                 "Mock interview with a friend or using Pramp",
+    //                 "Record and review answers"
+    //             ]
+    //         },
+    //         {
+    //             day: 7,
+    //             focus: "Mock coding challenge",
+    //             tasks: [
+    //                 "Solve 2-3 MERN related problems on LeetCode or HackerRank",
+    //                 "Time yourself, write clean code, explain approach",
+    //                 "Review solutions and optimize"
+    //             ]
+    //         }
+    //     ],
+    //     skillGaps: [
+    //         {
+    //             skill: "Node.js/Express deep API design",
+    //             severity: "high"
+    //         },
+    //         {
+    //             skill: "TypeScript usage in MERN",
+    //             severity: "medium"
+    //         },
+    //         {
+    //             skill: "Docker & container orchestration",
+    //             severity: "medium"
+    //         },
+    //         {
+    //             skill: "CI/CD pipeline implementation",
+    //             severity: "medium"
+    //         },
+    //         {
+    //             skill: "Advanced database modeling in MongoDB",
+    //             severity: "low"
+    //         }
+    //     ],
+    //     title: "MERN Stack Developer",
+    // };
 
     const getSeverityClass = (severity) => {
         switch (severity) {
@@ -203,7 +207,7 @@ const InterviewReport = () => {
                             Technical Questions
                         </h2>
 
-                        {response.technicalQuestions.map((question, index) => (
+                        {interviewReportResponse?.technicalQuestions.map((question, index) => (
                             <Card key={index}>
                                 <CardContent className="space-y-4 p-4 md:p-5">
 
@@ -243,7 +247,7 @@ const InterviewReport = () => {
                             Behavioral Questions
                         </h2>
 
-                        {response.behavioralQuestions.map((question, index) => (
+                        {interviewReportResponse?.behavioralQuestions.map((question, index) => (
                             <Card key={index}>
                                 <CardContent className="space-y-4 p-5">
 
@@ -284,12 +288,12 @@ const InterviewReport = () => {
                             </h2>
 
                             <Badge>
-                                {response.preparationPlans.length} Day Plan
+                                {interviewReportResponse?.preparationPlans.length} Day Plan
                             </Badge>
                         </div>
 
                         <div className="space-y-6">
-                            {response.preparationPlans.map((plan) => (
+                            {interviewReportResponse?.preparationPlans.map((plan) => (
                                 <div
                                     key={plan.day}
                                     className="relative border-l-2 border-primary pl-6"
@@ -330,7 +334,7 @@ const InterviewReport = () => {
                     <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border-[6px] border-green-500 md:h-36 md:w-36 md:border-[8px]">
                         <div>
                             <div className="text-4xl font-bold">
-                                {response.matchScore}
+                                {interviewReportResponse?.matchScore}
                             </div>
                             <div className="text-sm text-muted-foreground">
                                 %
@@ -349,7 +353,7 @@ const InterviewReport = () => {
                     </h3>
 
                     <div className="space-y-3">
-                        {response.skillGaps.map((gap, index) => (
+                        {interviewReportResponse?.skillGaps.map((gap, index) => (
                             <div
                                 key={index}
                                 className={`rounded-lg border p-3 text-sm font-medium ${getSeverityClass(

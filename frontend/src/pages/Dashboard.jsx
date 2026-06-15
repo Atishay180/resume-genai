@@ -2,11 +2,16 @@ import { toast } from "sonner";
 import GenerateInterviewReport from "../components/features/GenerateInterviewReport";
 import { useServices } from "../hooks/useServices";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setInterviewReportResponse } from "../app/slices/interviewReportSlice";
+import { useNavigate } from "react-router";
 
 const Dashboard = () => {
 
-    const { generateInterviewReport, isInterviewReportGenerating, interviewReportGenerationError } = useServices();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const { generateInterviewReport, isInterviewReportGenerating, interviewReportGenerationError } = useServices();
 
     const [profile, setProfile] = useState({
         resume: null,
@@ -84,7 +89,10 @@ const Dashboard = () => {
             }
 
             const response = await generateInterviewReport(formData);
-            console.log(response);
+
+            dispatch(setInterviewReportResponse(response.interviewReport));
+
+            navigate("/interview-report");
 
             toast.success("Interview strategy generated successfully!", {
                 position: "top-center",
