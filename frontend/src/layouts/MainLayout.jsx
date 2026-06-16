@@ -1,18 +1,14 @@
 // layouts/MainLayout.jsx
 
 import { Outlet } from "react-router";
-import Logout from "../components/features/Logout";
+import Navbar from "../components/features/Navbar";
 
 const MainLayout = () => {
     return (
         <div className="min-h-screen bg-background">
-            <header className="border-b">
-                <div className="container mx-auto flex h-10 items-center justify-end">
-                    <Logout props={{ className: '' }} />
-                </div>
-            </header>
+            <Navbar />
 
-            <main>
+            <main className="container mx-auto px-4 py-6">
                 <Outlet />
             </main>
         </div>
