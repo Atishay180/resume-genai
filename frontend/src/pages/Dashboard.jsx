@@ -92,7 +92,7 @@ const Dashboard = () => {
 
             dispatch(setInterviewReportResponse(response.interviewReport));
 
-            navigate("/interview-report");
+            navigate(`/interview-reports/${response.interviewReport._id}`);
 
             toast.success("Interview strategy generated successfully!", {
                 position: "top-center",

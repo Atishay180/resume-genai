@@ -3,12 +3,24 @@ import { Card, CardContent, } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Code2, MessageSquare, Map, } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { useServices } from "../hooks/useServices";
+import PageLoader from "../components/common/PageLoader";
+import ErrorState from "../components/common/ErrorState";
 
 const InterviewReport = () => {
 
+    const { interviewReportId } = useParams();
+
     const [activeSection, setActiveSection] = useState("technical");
 
-    const interviewReportResponse = useSelector((state) => state.interviewReport.interviewReportResponse);
+    const { currentInterviewReport, isLoadingDetail, isErrorDetail, errorDetail } = useServices(interviewReportId);
+
+    const reduxInterviewReport = useSelector((state) => state.interviewReport.interviewReportResponse);
+
+    const interviewReportResponse =
+        currentInterviewReport?.interviewReport ||
+        reduxInterviewReport;
 
     // const interviewReportResponse = {
     //     _id: "6a2e3640e8cb6a8da61383c5",
@@ -147,6 +159,28 @@ const InterviewReport = () => {
                 return "bg-green-500/15 text-green-500 border-green-500/30";
         }
     };
+
+    if (isLoadingDetail) {
+        return (
+            <PageLoader text="Loading interview report details..." />
+        );
+    }
+
+    if (isErrorDetail) {
+        return (
+            <ErrorState
+                text={errorDetail?.response?.data?.message}
+                onRetry={() => window.location.reload()}
+            />
+        );
+    }
+
+    if (!interviewReportResponse) {
+        return (
+            <ErrorState text="Interview report not found" />
+        );
+    }
+
 
     return (
         <div className="mx-auto max-w-7xl overflow-hidden rounded-2xl border bg-card lg:grid lg:h-[90vh] lg:grid-cols-12">

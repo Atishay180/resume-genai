@@ -15,6 +15,7 @@ export const useServices = (interviewId = null) => {
     const getAllInterviewReportsQuery = useQuery({
         queryKey: reportKeys.lists(),
         queryFn: userService.getAllInterviewReports,
+        enabled: !interviewId,
     });
 
     // GET INTERVIEW REPORT BY ID QUERY
