@@ -50,7 +50,7 @@ Requirements:
     }
 
     return (
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
 
             {/* Header */}
             <div className="mb-5 text-center">

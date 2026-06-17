@@ -8,7 +8,7 @@ const MainLayout = () => {
         <div className="min-h-screen bg-background">
             <Navbar />
 
-            <main className="container mx-auto px-4 py-6">
+            <main className="container mx-auto lg:px-4 lg:py-4 px-2 py-2">
                 <Outlet />
             </main>
         </div>
