@@ -1,12 +1,12 @@
 import { toast } from "sonner";
-import GenerateInterviewReport from "../components/features/GenerateInterviewReport";
 import { useServices } from "../hooks/useServices";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setInterviewReportResponse } from "../app/slices/interviewReportSlice";
 import { useNavigate } from "react-router";
+import GenerateInterviewReportLayout from "../components/features/GenerateInterviewReportLayout";
 
-const Dashboard = () => {
+const GenerateInterviewReport = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -112,7 +112,7 @@ const Dashboard = () => {
     return (
         <div className="container mx-auto border">
             <div className="min-h-screen bg-background px-4 py-4">
-                <GenerateInterviewReport
+                <GenerateInterviewReportLayout
                     profile={profile}
                     handleChange={handleChange}
                     handleResumeUpload={handleResumeUpload}
@@ -125,4 +125,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default GenerateInterviewReport;

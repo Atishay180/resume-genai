@@ -6,10 +6,10 @@ import { Toaster } from '@/components/ui/sonner'
 import MainLayout from './layouts/MainLayout'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
-import Dashboard from './pages/Dashboard'
 import InterviewReport from './pages/InterviewReport'
 import About from './pages/About'
 import PreviousReports from './pages/PreviousReports'
+import GenerateInterviewReport from './pages/GenerateInterviewReport'
 
 const App = () => {
   return (
@@ -24,7 +24,7 @@ const App = () => {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<GenerateInterviewReport />} />
             <Route path="/about" element={<About />} />
             <Route path="/reports" element={<PreviousReports />} />
             <Route path="/interview-reports/:interviewReportId" element={<InterviewReport />} />

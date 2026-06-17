@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { Briefcase, User, UploadCloud, Sparkles, Info } from "lucide-react";
 import InterviewReportGenerating from "../common/InterviewReportGenerating";
 import InterviewReportGenerationError from "../common/InterviewReportGenerationError";
 
-const GenerateInterviewReport = ({
+const GenerateInterviewReportLayout = ({
     profile,
     handleChange,
     handleResumeUpload,
@@ -216,4 +216,4 @@ Requirements:
     );
 };
 
-export default GenerateInterviewReport;
+export default GenerateInterviewReportLayout;
