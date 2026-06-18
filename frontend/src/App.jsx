@@ -8,8 +8,8 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import InterviewReport from './pages/InterviewReport'
 import About from './pages/About'
-import PreviousReports from './pages/PreviousReports'
 import GenerateInterviewReport from './pages/GenerateInterviewReport'
+import PreviousInterviewReports from './pages/PreviousInterviewReports'
 
 const App = () => {
   return (
@@ -26,7 +26,7 @@ const App = () => {
           <Route element={<MainLayout />}>
             <Route path="/" element={<GenerateInterviewReport />} />
             <Route path="/about" element={<About />} />
-            <Route path="/reports" element={<PreviousReports />} />
+            <Route path="/reports" element={<PreviousInterviewReports />} />
             <Route path="/interview-reports/:interviewReportId" element={<InterviewReport />} />
           </Route>
         </Route>
