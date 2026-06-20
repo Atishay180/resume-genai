@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router";
 import { FileText, LayoutDashboard, Info, History } from "lucide-react";
 import Logout from "./Logout";
+import appConfig from "@/src/appConfig";
 
 const Navbar = () => {
     const navItems = [
@@ -36,11 +37,11 @@ const Navbar = () => {
 
                     <div>
                         <h1 className="text-lg font-bold">
-                            ResumeAI
+                            {appConfig.name}
                         </h1>
 
                         <p className="text-xs text-muted-foreground">
-                            Interview Preparation
+                            {appConfig.subName}
                         </p>
                     </div>
                 </Link>

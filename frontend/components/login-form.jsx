@@ -10,7 +10,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { GalleryVerticalEndIcon } from "lucide-react"
+import { FileText } from "lucide-react"
 import { NavLink } from "react-router"
 
 export function LoginForm({
@@ -18,6 +18,8 @@ export function LoginForm({
   setFormData,
   formData,
   isLogging,
+  name,
+  subName,
   className,
   ...props
 }) {
@@ -28,11 +30,11 @@ export function LoginForm({
           <div className="flex flex-col items-center gap-2 text-center">
             <NavLink to="/" className="flex flex-col items-center gap-2 font-medium">
               <div className="flex size-8 items-center justify-center rounded-md">
-                <GalleryVerticalEndIcon className="size-6" />
+                <FileText className="size-6" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">{name}</span>
             </NavLink>
-            <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+            <h1 className="text-xl font-bold">Welcome to {name}</h1>
             <FieldDescription>
               Don&apos;t have an account? <NavLink to="/signup">Sign up</NavLink>
             </FieldDescription>

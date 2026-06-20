@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import appConfig from '../appConfig';
 
 const SignUp = () => {
 
@@ -49,6 +50,8 @@ const SignUp = () => {
                     setFormData={setFormData}
                     formData={formData}
                     isRegistering={isRegistering}
+                    name={appConfig.name}
+                    subName={appConfig.subName}
                 />
             </div>
         </div>
