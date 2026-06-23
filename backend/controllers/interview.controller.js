@@ -1,5 +1,6 @@
 import { PDFParse } from "pdf-parse";
 import { generateInterviewReport } from "../services/ai.service.js";
+import { generateResumePdf } from "../services/generateResume.service.js";
 import { InterviewReport } from "../models/interviewReport.model.js";
 
 const generateInterviewReportController = async (req, res) => {
@@ -86,4 +87,45 @@ const getAllInterviewReportsController = async (req, res) => {
     }
 };
 
-export { generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReportsController };
+const generateResumePdfController = async (req, res) => {
+
+    try {
+        const { jobDescription, selfDescription } = req.body;
+
+        if (!req.file && !selfDescription) {
+            return res.status(400).json({
+                message: "Resume or self description is required",
+            });
+        };
+
+        if (!jobDescription) {
+            return res.status(400).json({
+                message: "Job description is required",
+            });
+        };
+
+        let resumeContent = null;
+        if (req.file) {
+            const parser = new PDFParse({
+                data: req.file.buffer,
+            });
+            const pdfData = await parser.getText();
+            resumeContent = pdfData.text;
+        }
+
+        const pdfBuffer = await generateResumePdf({ resume: resumeContent, selfDescription, jobDescription });
+
+        res.set({
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename=resume.pdf`,
+        });
+
+        return res.status(200).send(pdfBuffer);
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
+    }
+};
+
+export { generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReportsController, generateResumePdfController };

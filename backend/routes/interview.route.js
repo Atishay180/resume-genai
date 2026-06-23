@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authUser } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
-import { generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReportsController } from "../controllers/interview.controller.js";
+import { generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReportsController, generateResumePdfController } from "../controllers/interview.controller.js";
 
 const interviewRouter = Router();
 
@@ -25,5 +25,12 @@ interviewRouter.get("/report/:interviewId", authUser, getInterviewReportByIdCont
  * @access Private
  */
 interviewRouter.get("/reports", authUser, getAllInterviewReportsController);
+
+/**
+ * @route POST /api/v1/interview/resume/pdf
+ * @description Generate resume pdf
+ * @access Private
+ */
+interviewRouter.post("/resume/pdf", authUser, upload.single("resume"), generateResumePdfController);
 
 export default interviewRouter;
