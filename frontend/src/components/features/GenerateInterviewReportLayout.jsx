@@ -1,4 +1,5 @@
 import React from "react";
+import '@/src/styles/animations.css';
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -53,10 +54,10 @@ Requirements:
         <div className="mx-auto max-w-6xl">
 
             {/* Header */}
-            <div className="mb-5 text-center">
+            <div className="header-enter mb-5 text-center">
                 <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                     Create Your Custom{" "}
-                    <span className="bg-linear-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+                    <span className="shimmer-text">
                         Interview Plan
                     </span>
                 </h1>
@@ -68,12 +69,12 @@ Requirements:
             </div>
 
             {/* Main Card */}
-            <Card className="overflow-hidden rounded-3xl border bg-card shadow-sm" >
+            <Card className="card-enter overflow-hidden rounded-3xl border bg-card shadow-sm" >
                 <CardContent className="p-0">
                     <div className="grid lg:grid-cols-2">
 
                         {/* Left Section */}
-                        <div className="border-r border-border p-4">
+                        <div className="left-enter border-r border-border p-4">
                             <div className="mb-4 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <Briefcase className="h-4 w-4 text-primary" />
@@ -106,7 +107,7 @@ Requirements:
                         </div>
 
                         {/* Right Section */}
-                        <div className="p-4">
+                        <div className="right-enter p-4">
                             <div className="mb-4 flex items-center gap-2">
                                 <User className="h-4 w-4 text-primary" />
                                 <h2 className="font-semibold text-foreground">
@@ -131,9 +132,9 @@ Requirements:
 
                                 <label
                                     htmlFor="resume-upload"
-                                    className="flex min-h-[130px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/20 p-4 transition-all hover:border-primary hover:bg-muted/40"
+                                    className="flex min-h-[130px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/20 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-primary hover:shadow-lg"
                                 >
-                                    <UploadCloud className="mb-2 h-7 w-7 text-primary" />
+                                    <UploadCloud className="float mb-2 h-7 w-7 text-primary" />
 
                                     <p className="text-sm font-medium text-foreground">
                                         {profile.resume
@@ -173,7 +174,7 @@ Requirements:
                                 </h3>
 
                                 <Textarea
-                                    className="h-[120px] resize-none border-border bg-background"
+                                    className="h-[360px] resize-none border-border bg-background transition-all duration-300 focus:shadow-lg"
                                     placeholder={placeholderTexts.selfDescription}
                                     value={profile.selfDescription}
                                     onChange={(e) =>
@@ -197,7 +198,7 @@ Requirements:
                 </CardContent>
 
                 {/* Footer */}
-                <CardFooter className="flex flex-col gap-3 border-t border-border p-4 sm:flex-row sm:items-center sm:justify-between">
+                <CardFooter className="footer-enter flex flex-col gap-3 border-t border-border p-4 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs text-muted-foreground">
                         AI-Powered Strategy Generation • Approx. 30 seconds
                     </p>
@@ -205,10 +206,11 @@ Requirements:
                     <Button
                         size="default"
                         onClick={handleGenerateInterviewStrategy}
-                        className="bg-linear-to-r from-primary to-primary/80 text-primary-foreground shadow-sm"
+                        disabled={isInterviewReportGenerating}
+                        className="bg-linear-to-r from-primary to-primary/80 transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
                     >
                         <Sparkles className="mr-2 h-4 w-4" />
-                        Generate My Interview Strategy
+                        {isInterviewReportGenerating ? "Generating..." : "Generate Interview Strategy"}
                     </Button>
                 </CardFooter>
             </Card >

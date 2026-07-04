@@ -1,0 +1,133 @@
+/* Fade Up */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade Down */
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade Left */
+@keyframes fadeLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade Right */
+@keyframes fadeRight {
+    from {
+        opacity: 0;
+        transform: translateX(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Zoom */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Float */
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* Shimmer */
+@keyframes shimmer {
+    from {
+        background-position: -200% 0;
+    }
+
+    to {
+        background-position: 200% 0;
+    }
+}
+
+/* Classes */
+
+.page-enter {
+    animation: fadeUp .5s ease forwards;
+}
+
+.header-enter {
+    animation: fadeDown .6s ease forwards;
+}
+
+.card-enter {
+    animation: zoomIn .6s ease forwards;
+}
+
+.left-enter {
+    animation: fadeLeft .7s ease forwards;
+}
+
+.right-enter {
+    animation: fadeRight .7s ease forwards;
+}
+
+.footer-enter {
+    animation: fadeUp .8s ease forwards;
+}
+
+.float {
+    animation: floating 3s ease-in-out infinite;
+}
+
+.shimmer-text {
+    background: linear-gradient(90deg,
+            hsl(var(--primary)) 20%,
+            white 50%,
+            hsl(var(--primary)) 80%);
+
+    background-size: 200% auto;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    animation: shimmer 3s linear infinite;
+}
